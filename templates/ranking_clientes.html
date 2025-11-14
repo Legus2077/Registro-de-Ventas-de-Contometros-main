@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ranking de Clientes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <span class="navbar-brand">Ranking de Clientes</span>
+    <div class="d-flex">
+      <a href="{{ url_for('registrar_venta') }}" class="btn btn-primary me-2">➕ Registrar Venta</a> 
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-light me-2">Dashboard</a>
+            <a href="{{ url_for('ranking_clientes') }}" class="btn btn-outline-light me-2">Ranking</a>
+            <a href="{{ url_for('ver_ventas') }}" class="btn btn-outline-light me-2">Ver Ventas</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-outline-light" onclick="return confirm('¿Seguro que deseas cerrar sesión?');">Cerrar sesión</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+
+  <h2 class="mb-3">Clientes que más han comprado (mayor a menor)</h2>
+
+  <!-- Filtros -->
+  <div class="card mb-4">
+    <div class="card-header">Filtros</div>
+    <div class="card-body">
+      <form method="GET" class="row g-3">
+        <div class="col-md-3">
+          <label class="form-label">Desde</label>
+          <input type="date" class="form-control" name="desde" value="{{ desde or '' }}">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Hasta</label>
+          <input type="date" class="form-control" name="hasta" value="{{ hasta or '' }}">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Top</label>
+          <input type="number" class="form-control" name="top" value="{{ top or 20 }}" min="1">
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+          <button class="btn btn-success w-100" type="submit">Aplicar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Tabla ranking -->
+  <div class="card">
+    <div class="card-header">Resultado</div>
+    <div class="card-body">
+      {% if ranking %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Cliente</th>
+            <th>DNI</th>
+            <th>Compras</th>
+            <th>Total (S/)</th>
+            <th>Primera compra</th>
+            <th>Última compra</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in ranking %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ r[1] or '(sin nombre)' }}</td>
+            <td>{{ r[2] or '(sin DNI)' }}</td>
+            <td>{{ r[3] }}</td>
+            <td>{{ "%.2f"|format(r[4]) }}</td>
+            <td>{{ r[5] }}</td>
+            <td>{{ r[6] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+        <p>No hay datos para el filtro seleccionado.</p>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

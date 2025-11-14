@@ -1,0 +1,21 @@
+Tener python instalado en tu pc windows con el path.
+
+
+Crear el Entorno Virtual:
+python -m venv .venv
+
+Activar el Entorno Virtual (¡Muy Importante!):
+.\.venv\Scripts\activate
+
+Instalar las Librerías Requeridas:
+pip install -r requirements.txt
+pip install flask
+pip install pyodbc
+
+como correr el programa?
+python "nombre de la carpeta" app.py
+ejemplo:
+python gestor_ventas/app.py
+
+si esta directo en la carpeta
+va directo el python app.py
